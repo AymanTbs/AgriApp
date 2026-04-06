@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriApp — Download</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #1a3a2a;
+      --green-mid: #2d6a4f;
+      --green-accent: #52b788;
+      --green-light: #95d5b2;
+      --sand: #f0e8d8;
+      --sand-dark: #d4c4a0;
+      --white: #fafaf7;
+      --text: #1a2e1f;
+      --text-soft: #4a6358;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--green-dark);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(82,183,136,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 10% 80%, rgba(45,106,79,0.25) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grain texture */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 52px 0 0;
+      text-align: center;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(82,183,136,0.15);
+      border: 1px solid rgba(82,183,136,0.3);
+      border-radius: 100px;
+      padding: 8px 18px 8px 10px;
+      margin-bottom: 28px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .logo-badge span {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green-light);
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.6rem, 8vw, 4rem);
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--green-accent);
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+      color: var(--green-light);
+      opacity: 0.85;
+      font-weight: 300;
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    /* Notice banner */
+    .notice {
+      background: rgba(255,220,100,0.1);
+      border: 1px solid rgba(255,220,100,0.25);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 40px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      animation: fadeUp 0.7s 0.1s ease both;
+      text-align: left;
+    }
+
+    .notice-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .notice p { font-size: 0.88rem; color: #fde68a; line-height: 1.6; }
+    .notice strong { font-weight: 600; }
+
+    /* Cards */
+    .cards {
+      display: grid;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+      animation: fadeUp 0.7s ease both;
+      text-align: left;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(82,183,136,0.4);
+      background: rgba(82,183,136,0.06);
+    }
+
+    .card:nth-child(1) { animation-delay: 0.15s; }
+    .card:nth-child(2) { animation-delay: 0.25s; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .platform-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .platform-icon.android { background: rgba(61,220,132,0.18); }
+    .platform-icon.ios     { background: rgba(120,180,255,0.18); }
+
+    .card-header-text h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .card-header-text p {
+      font-size: 0.82rem;
+      color: var(--green-light);
+      opacity: 0.7;
+    }
+
+    .steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(82,183,136,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--green-accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+    .step p code {
+      background: rgba(82,183,136,0.15);
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 0.85em;
+      color: var(--green-light);
+      font-family: monospace;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--green-accent);
+      color: var(--green-dark);
+    }
+    .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+
+    .btn-row { display: flex; flex-direction: column; gap: 10px; }
+
+    /* Info box */
+    .info-box {
+      background: rgba(82,183,136,0.08);
+      border: 1px solid rgba(82,183,136,0.2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.84rem;
+      color: var(--green-light);
+      line-height: 1.6;
+      margin-top: 16px;
+    }
+    .info-box strong { color: var(--white); }
+
+    /* QR section */
+    .qr-section {
+      text-align: center;
+      padding: 36px 28px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+
+    .qr-section h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .qr-section p { font-size: 0.86rem; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+
+    .qr-placeholder {
+      width: 130px;
+      height: 130px;
+      background: var(--white);
+      border-radius: 12px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-dark);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px;
+      line-height: 1.4;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 24px 0 48px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+      animation: fadeUp 0.7s 0.45s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(82,183,136,0.3), transparent);
+      margin: 8px 0 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <div class="logo-badge">
+        <div class="logo-icon">🌿</div>
+        <span>AgriApp v1.0.0</span>
+      </div>
+      <h1>Download<br/><em>AgriApp</em></h1>
+      <p class="tagline">Agricultural Robot Management — available for Android &amp; iOS</p>
+    </header>
+
+    <div class="notice">
+      <span class="notice-icon">⚠️</span>
+      <p><strong>Important:</strong> This app is distributed directly (not via app stores yet). Follow the steps below for your device. Android users need to allow unknown sources; iPhone users need a special build method.</p>
+    </div>
+
+    <div class="cards">
+
+      <!-- Android Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="platform-icon android">🤖</div>
+          <div class="card-header-text">
+            <h2>Android</h2>
+            <p>APK direct install · Android 6.0+</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <ul class="steps">
+          <li class="step">
+            <div class="step-num">1</div>
+            <p>On your Android phone, go to <strong>Settings → Security</strong> (or <strong>Apps → Special App Access</strong>) and enable <code>Install unknown apps</code> for your browser.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">2</div>
+            <p>Tap the button below to download the <code>.apk</code> file. If your browser warns you, tap <strong>Download anyway</strong>.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">3</div>
+            <p>Open your <strong>Downloads</strong> folder, tap the APK file, then tap <strong>Install</strong>. The app will appear on your home screen.</p>
+          </li>
+        </ul>
+        <div class="btn-row">
+          <a href="agriapp-v1.0.0.apk" class="btn btn-primary" download>
+            ⬇ Download APK (Android)
+          </a>
+        </div>
+        <div class="info-box">
+          <strong>No APK file yet?</strong> The uploaded project is Flutter source code — you need to build the APK first using <code>flutter build apk --release</code>, then host the output file and link it here.
+        </div>
+      </div>
+
+      <!-- iOS Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="platform-icon ios">🍎</div>
+          <div class="card-header-text">
+            <h2>iPhone / iPad</h2>
+            <p>iOS 12+ · Requires special distribution</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <ul class="steps">
+          <li class="step">
+            <div class="step-num">1</div>
+            <p><strong>Option A — TestFlight:</strong> If the developer has set up TestFlight, tap the invite link they shared with you to install the beta app directly.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">2</div>
+            <p><strong>Option B — Ad-hoc / Enterprise:</strong> Download the <code>.ipa</code> file below. You'll need to trust the developer profile under <strong>Settings → General → VPN &amp; Device Management</strong>.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">3</div>
+            <p><strong>Option C — App Store:</strong> Once the app is published, search <em>"AgriApp"</em> in the App Store and install it normally.</p>
+          </li>
+        </ul>
+        <div class="btn-row">
+          <a href="#testflight" class="btn btn-primary">🔗 Join TestFlight (iOS)</a>
+          <a href="agriapp-v1.0.0.ipa" class="btn btn-secondary" download>⬇ Download IPA (Ad-hoc)</a>
+        </div>
+        <div class="info-box">
+          <strong>Note for iOS:</strong> Apple does not allow direct IPA installs without a paid developer account ($99/yr) and a signed build. The easiest option for sharing with testers is <strong>TestFlight</strong>.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QR code hint -->
+    <div class="qr-section">
+      <h3>📲 Share this page via QR</h3>
+      <p>Point your phone camera at the QR code to open this download page — then choose your platform.</p>
+      <div class="qr-placeholder">
+        Replace this box with a QR code that links to this page's hosted URL
+      </div>
+    </div>
+
+    <footer>
+      AgriApp · Agricultural Robot Management · v1.0.0<br/>
+      © 2026 AgriOBot — All rights reserved
+    </footer>
+
+  </div>
+</body>
+</html>
